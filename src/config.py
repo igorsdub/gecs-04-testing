@@ -14,7 +14,7 @@ DATA_DIR = PROJ_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 
-ANALYZED_DIR = PROJ_ROOT / "analyzed"
+ANALYZED_DIR = DATA_DIR / "analyzed"
 
 RESULT_DIR = PROJ_ROOT / "results"
 
