@@ -1,9 +1,8 @@
-
-import os
-import tempfile
-import pytest
-import pandas as pd
 from unittest.mock import patch
+
+import pandas as pd
+import pytest
+
 from src.analysis import (
     DELIMITERS,
     calculate_word_counts,
@@ -11,31 +10,36 @@ from src.analysis import (
     word_count,
 )
 
-
-
 # ------------------- Fixtures -------------------
+
 
 @pytest.fixture
 def simple_lines():
     return ["hello world", "hello there", "world peace"]
 
+
 @pytest.fixture
 def case_lines():
     return ["Hello HELLO hello", "World WORLD world"]
+
 
 @pytest.fixture
 def delimiter_lines():
     return ["hello,world!", "test.data?", "my-word(test)"]
 
+
 @pytest.fixture
 def min_length_lines():
     return ["a bb ccc dddd"]
+
 
 @pytest.fixture
 def whitespace_lines():
     return ["  hello   world  ", "\t\ntest\r\n"]
 
+
 # ------------------- Tests -------------------
+
 
 def test_simple_word_count(simple_lines):
     result = calculate_word_counts(simple_lines)
@@ -47,11 +51,13 @@ def test_simple_word_count(simple_lines):
     assert word_counts["there"] == 1
     assert word_counts["peace"] == 1
 
+
 def test_case_insensitive(case_lines):
     result = calculate_word_counts(case_lines)
     word_counts = dict(zip(result["word"], result["count"]))
     assert word_counts["hello"] == 3
     assert word_counts["world"] == 3
+
 
 def test_delimiter_removal(delimiter_lines):
     result = calculate_word_counts(delimiter_lines)
@@ -66,6 +72,7 @@ def test_delimiter_removal(delimiter_lines):
         for delimiter in ".,;:?$@^<>#%`!*-=()[]{}/'\"":
             assert delimiter not in word
 
+
 def test_min_length_filter(min_length_lines):
     result = calculate_word_counts(min_length_lines, min_length=3)
     word_counts = dict(zip(result["word"], result["count"]))
@@ -74,11 +81,13 @@ def test_min_length_filter(min_length_lines):
     assert "ccc" in word_counts
     assert "dddd" in word_counts
 
+
 def test_empty_input():
     result = calculate_word_counts([])
     assert isinstance(result, pd.DataFrame)
     assert len(result) == 0
     assert list(result.columns) == ["word", "count"]
+
 
 def test_whitespace_handling(whitespace_lines):
     result = calculate_word_counts(whitespace_lines)
@@ -88,13 +97,10 @@ def test_whitespace_handling(whitespace_lines):
     assert word_counts["test"] == 1
 
 
-
 @pytest.fixture
 def wordcount_df():
-    return pd.DataFrame({
-        "word": ["hello", "world", "test"],
-        "count": [3, 2, 1]
-    })
+    return pd.DataFrame({"word": ["hello", "world", "test"], "count": [3, 2, 1]})
+
 
 def test_save_to_csv(wordcount_df, tmp_path):
     file_path = tmp_path / "counts.csv"
@@ -103,9 +109,8 @@ def test_save_to_csv(wordcount_df, tmp_path):
     pd.testing.assert_frame_equal(wordcount_df, loaded_df)
 
 
-
-@patch('src.analysis.load_text')
-@patch('src.analysis.save_word_counts')
+@patch("src.analysis.load_text")
+@patch("src.analysis.save_word_counts")
 def test_word_count_integration(mock_save, mock_load):
     mock_load.return_value = ["hello world", "hello there"]
     word_count("input.txt", "output.csv", min_length=1)
@@ -119,7 +124,6 @@ def test_word_count_integration(mock_save, mock_load):
     assert word_counts["hello"] == 2
     assert word_counts["world"] == 1
     assert word_counts["there"] == 1
-
 
 
 def test_delimiters_constant():
