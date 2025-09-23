@@ -13,14 +13,15 @@ from src.dataset import load_text
 app = typer.Typer()
 
 
-
 DELIMITERS = r"[\.\,;:\?\$@\^<>#%`!\*\-=\(\)\[\]\{\}/\\\"']"
+
 
 def save_word_counts(filename: str, df: pd.DataFrame) -> None:
     """
     Save a DataFrame of word counts to a CSV file.
     """
     df.to_csv(filename, index=False)
+
 
 def calculate_word_counts(lines: List[str], min_length: int = 1) -> pd.DataFrame:
     """
@@ -38,6 +39,7 @@ def calculate_word_counts(lines: List[str], min_length: int = 1) -> pd.DataFrame
     counts.columns = ["word", "count"]
     return counts
 
+
 def word_count(input_file: str, output_file: str, min_length: int = 1) -> None:
     """
     Load a file, calculate the frequencies of each word in the file and
@@ -47,7 +49,6 @@ def word_count(input_file: str, output_file: str, min_length: int = 1) -> None:
     lines = load_text(input_file)
     df = calculate_word_counts(lines, min_length)
     save_word_counts(output_file, df)
-
 
 
 @app.command()
@@ -62,6 +63,7 @@ def main(
     logger.info(f"Counting words in {input_path} (min_length={min_length})")
     word_count(str(input_path), str(output_path), min_length)
     logger.success(f"Word counts saved to {output_path}")
+
 
 @app.command()
 def demo(

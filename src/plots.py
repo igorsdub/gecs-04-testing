@@ -10,6 +10,7 @@ from src.config import ANALYZED_DIR, RESULT_DIR
 
 app = typer.Typer()
 
+
 def plot_word_counts(df: pd.DataFrame, limit: int = 10) -> None:
     """
     Plot a histogram of word counts from a pandas DataFrame.
@@ -21,13 +22,12 @@ def plot_word_counts(df: pd.DataFrame, limit: int = 10) -> None:
     limited_df = df.head(limit)
     position = range(len(limited_df))
     plt.figure(figsize=(6, 4))
-    plt.bar(position, limited_df['count'], width=0.8)
-    plt.xticks(position, limited_df['word'].tolist(), rotation=45, ha='right')
+    plt.bar(position, limited_df["count"], width=0.8)
+    plt.xticks(position, limited_df["word"].tolist(), rotation=45, ha="right")
     plt.title("Word Counts")
     plt.ylabel("Counts")
     plt.xlabel("Word")
     plt.tight_layout()
-
 
 
 @app.command()
@@ -48,6 +48,7 @@ def main(
     else:
         plt.savefig(output_path)
         logger.success(f"Plot saved to {output_path}")
+
 
 @app.command()
 def demo(

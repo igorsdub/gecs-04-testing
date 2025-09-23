@@ -21,6 +21,7 @@ def load_text(filename: str) -> List[str]:
     with open(filename, encoding="utf-8") as f:
         return f.read().splitlines()
 
+
 def save_text(filename: str, text: str) -> None:
     """
     Save a string to a plain-text file.
@@ -31,6 +32,7 @@ def save_text(filename: str, text: str) -> None:
     """
     with open(filename, "w", encoding="utf-8") as f:
         f.write(text)
+
 
 def strip_headers(text: List[str]) -> str:
     """
@@ -57,9 +59,7 @@ def strip_headers(text: List[str]) -> str:
     return "\n".join(output).strip()
 
 
-
 app = typer.Typer()
-
 
 
 @app.command()
@@ -76,6 +76,7 @@ def main(
     logger.info(f"Saving cleaned text to {output_path}")
     save_text(str(output_path), cleaned_text)
     logger.success("Gutenberg text cleaned and saved.")
+
 
 @app.command()
 def demo(
