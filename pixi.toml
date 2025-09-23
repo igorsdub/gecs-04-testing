@@ -32,3 +32,4 @@ analysis = {cmd = "python src/analysis.py main", depends-on = ["dataset"]}
 plots = {cmd = "python src/plots.py main", depends-on = ["analysis"]}
 all = [{task = "dataset"}, {task = "analysis"}, {task = "plots"}]
 clean = "rm -f data/processed/* analyzed/* results/*"
+test = "pytest --cov"
