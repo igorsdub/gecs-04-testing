@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import pandas as pd
 import pytest
 
@@ -109,10 +107,9 @@ def test_save_to_csv(wordcount_df, tmp_path):
     pd.testing.assert_frame_equal(wordcount_df, loaded_df)
 
 
-@patch("src.analysis.load_text")
-@patch("src.analysis.save_word_counts")
-def test_word_count_integration(mock_save, mock_load):
-    mock_load.return_value = ["hello world", "hello there"]
+def test_word_count_integration(mocker):
+    mock_load = mocker.patch("src.analysis.load_text", return_value=["hello world", "hello there"])
+    mock_save = mocker.patch("src.analysis.save_word_counts")
     word_count("input.txt", "output.csv", min_length=1)
     mock_load.assert_called_once_with("input.txt")
     assert mock_save.call_count == 1
