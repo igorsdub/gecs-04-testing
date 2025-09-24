@@ -101,14 +101,26 @@ The commands above are scripted versions of src layout run code using [Typer](ht
 
 ## Tests
 
-Run tests on the source code to verify correctness of the method.
+Run tests on the source code to verify correctness of the method. 
+
+```bash
+pytest --cov
+```
+
+`pytest` will automatically find files that start with `test_` across the repository. `--cov` generates a coverage report that shows how much of the source code has been covered by the tests.
+
+Alternatively, you can run a Pixi task:
+
+```bash
+pixi run test
+```
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-Please make sure to update tests as appropriate. To be added...
+Please make sure to update tests as appropriate.
 
 ## License
 
