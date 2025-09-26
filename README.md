@@ -91,8 +91,8 @@ To see how the pipeline has been refactored, you can run the same commands as in
 
 ```bash
 python src/dataset.py data/raw/book.txt data/processed/book.txt
-python count_words.py data/processed/book.txt analyzed/word_count.csv
-python plot_histogram.py analyzed/word_count.csv results/histogram.pdf
+python src/count_words.py data/processed/book.txt data/analyzed/word_count.csv
+python src/plot_histogram.py data/analyzed/word_count.csv results/histogram.pdf
 ```
 
 The commands above are scripted versions of src layout run code using [Typer](https://typer.tiangolo.com/).
